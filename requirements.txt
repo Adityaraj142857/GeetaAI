@@ -1,0 +1,4 @@
+ragstack-ai
+datasets
+streamlit
+PyPDF2
