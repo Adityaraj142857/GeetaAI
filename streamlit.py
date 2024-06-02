@@ -1,41 +1,6 @@
-# import streamlit as st
-# from Retrieval import get_response
-# import os
-
-# # Set the title of the Streamlit app
-# st.title("Geeta AI")
-
-# # Create a text input for the user query
-# user_query = st.text_input("Enter your Problem:")
-
-# # Create a button for search
-# if st.button("Ask Radhey"):
-#     if user_query:
-#         try:
-#             # Get the response from the model
-#             response = get_response(user_query)
-#             # Display the response
-#             st.write(response)
-#         except Exception as e:
-#             st.error(f"An error occurred: {e}")
-#     else:
-#         st.write("Please enter a query to search.")
-
-# Optionally, you can also add an image
-# image_path = "path/to/your/image.jpg"
-# if os.path.exists(image_path):
-#     st.image(image_path, caption="Bhagavad Gita")
-# else:
-#     st.warning("Image not found. Please check the path.")
-
-
-############################################################33333
 import streamlit as st
 from Retrieval import get_response
 import os
-
-# Set the title of the Streamlit app
-st.title("Geeta AI")
 
 # Custom CSS to add a background image and style the app
 def add_bg_from_url():
@@ -47,7 +12,7 @@ def add_bg_from_url():
             background-size: cover;
         }}
         .stTextInput > div > div > input {{
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
         }}
         .stButton > button {{
             background-color: #4CAF50;
@@ -67,6 +32,12 @@ def add_bg_from_url():
             color: black;
             border: 2px solid #4CAF50;
         }}
+        .conversation {{
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }}
         </style>
         """,
         unsafe_allow_html=True
@@ -74,8 +45,15 @@ def add_bg_from_url():
 
 add_bg_from_url()
 
+# Set the title of the Streamlit app
+st.title("Geeta AI")
+
+# Initialize session state for conversation history
+if 'history' not in st.session_state:
+    st.session_state.history = []
+
 # Create a text input for the user query
-user_query = st.text_input("Enter your Problem:")
+user_query = st.text_input("Enter your Problems:")
 
 # Create a button for search
 if st.button("Ask Radhey"):
@@ -83,9 +61,21 @@ if st.button("Ask Radhey"):
         try:
             # Get the response from the model
             response = get_response(user_query)
-            # Display the response
-            st.write(response)
+            # Append the user query and response to the conversation history
+            st.session_state.history.append({"query": user_query, "response": response})
         except Exception as e:
             st.error(f"An error occurred: {e}")
     else:
-        st.write("Please enter a query to search.")
+        st.write("Please enter a Problem to search.")
+
+# Display the conversation history
+st.subheader("Conversation")
+for chat in st.session_state.history:
+    st.markdown(f'<div class="conversation"><strong>Problem:</strong> {chat["query"]}<br><strong>Solution:</strong> {chat["response"]}</div>', unsafe_allow_html=True)
+
+# Optionally, you can also add an image
+image_path = "data/image.jpg"
+if os.path.exists(image_path):
+    st.image(image_path, caption="Bhagavad Gita")
+else:
+    st.warning("Image not found. Please check the path.")
