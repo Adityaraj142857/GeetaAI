@@ -73,9 +73,9 @@ st.subheader("Conversation")
 for chat in st.session_state.history:
     st.markdown(f'<div class="conversation"><strong>Problem:</strong> {chat["query"]}<br><strong>Solution:</strong> {chat["response"]}</div>', unsafe_allow_html=True)
 
-# Optionally, you can also add an image
-image_path = "data/image.jpg"
-if os.path.exists(image_path):
-    st.image(image_path, caption="Bhagavad Gita")
-else:
-    st.warning("Image not found. Please check the path.")
+# # Optionally, you can also add an image
+# image_path = "data/image.jpg"
+# if os.path.exists(image_path):
+#     st.image(image_path, caption="Bhagavad Gita")
+# else:
+#     st.warning("Image not found. Please check the path.")
